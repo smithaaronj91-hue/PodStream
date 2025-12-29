@@ -1,0 +1,400 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Loading animation */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+  background-position: -1000px 0;
+  background-size: 1000px 100%;
+}
+
+/* Hide scrollbar for clips view */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Audio visualizer animation */
+@keyframes audioBar {
+  0%, 100% {
+    height: 20%;
+  }
+  50% {
+    height: 100%;
+  }
+}
+
+.animate-audio-bar {
+  animation: audioBar 0.5s ease-in-out infinite;
+}
+
+/* Spinning disc animation */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 3s linear infinite;
+}
+
+/* Pulse animation for playing indicator */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(90deg, #00f5d4, #ff006e, #fb5607);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* TikTok-style button gradient */
+.tiktok-gradient {
+  background: linear-gradient(90deg, #25f4ee, #fe2c55);
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Dark theme for the whole app */
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-track {
+    background: #1a1a1a;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #444;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #666;
+  }
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ==========================================
+   VIDEO-FIRST PLATFORM STYLES
+   ========================================== */
+
+/* Snap scrolling for vertical video feed */
+.snap-mandatory {
+  scroll-snap-type: y mandatory;
+}
+
+.snap-start {
+  scroll-snap-align: start;
+}
+
+.snap-center {
+  scroll-snap-align: center;
+}
+
+/* Video container - full viewport */
+.video-container {
+  height: 100vh;
+  height: 100dvh; /* Dynamic viewport height for mobile */
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Video overlay gradient */
+.video-overlay-gradient {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.4) 30%,
+    transparent 60%
+  );
+}
+
+/* Floating action buttons */
+.action-button {
+  @apply flex flex-col items-center gap-1;
+  transition: transform 0.2s ease;
+}
+
+.action-button:active {
+  transform: scale(0.9);
+}
+
+.action-button-icon {
+  @apply w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center;
+}
+
+/* Heart animation */
+@keyframes heart-burst {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-heart {
+  animation: heart-burst 0.3s ease-in-out;
+}
+
+/* Double-tap like animation */
+@keyframes like-float {
+  0% {
+    opacity: 1;
+    transform: scale(0) translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) translateY(-20px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1) translateY(-60px);
+  }
+}
+
+.animate-like-float {
+  animation: like-float 0.8s ease-out forwards;
+}
+
+/* Progress bar */
+.video-progress {
+  @apply absolute bottom-0 left-0 right-0 h-1 bg-white/20;
+}
+
+.video-progress-bar {
+  @apply h-full bg-white transition-all duration-100;
+}
+
+/* Buffering spinner */
+@keyframes buffer-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-buffer {
+  animation: buffer-spin 1s linear infinite;
+}
+
+/* Comments drawer */
+.comments-drawer {
+  @apply fixed bottom-0 left-0 right-0 bg-gray-900 rounded-t-3xl z-50;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-out;
+  max-height: 70vh;
+}
+
+.comments-drawer.open {
+  transform: translateY(0);
+}
+
+/* Share sheet */
+.share-sheet {
+  @apply fixed inset-0 bg-black/50 z-50 flex items-end justify-center;
+}
+
+.share-sheet-content {
+  @apply bg-gray-800 rounded-t-3xl w-full max-w-lg p-6;
+  animation: slide-up 0.3s ease-out;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Creator verification badge */
+.verified-badge {
+  @apply w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center text-[10px];
+}
+
+/* Follow button pulse */
+@keyframes follow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(236, 72, 153, 0);
+  }
+}
+
+.animate-follow-pulse {
+  animation: follow-pulse 2s infinite;
+}
+
+/* Music note animation */
+@keyframes music-note {
+  0% {
+    opacity: 0;
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px) rotate(15deg);
+  }
+}
+
+.animate-music-note {
+  animation: music-note 2s ease-out infinite;
+}
+
+/* Marquee text animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 10s linear infinite;
+}
+
+/* Remix studio timeline */
+.timeline-handle {
+  @apply absolute top-0 bottom-0 w-3 bg-pink-500 cursor-ew-resize;
+  touch-action: none;
+}
+
+.timeline-handle:hover {
+  @apply bg-pink-400;
+}
+
+/* Video effects preview */
+.effect-preview {
+  @apply relative rounded-lg overflow-hidden cursor-pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.effect-preview:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
+}
+
+.effect-preview.selected {
+  @apply ring-2 ring-pink-500;
+}
+
+/* Mobile safe areas */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+/* Hide video controls */
+video::-webkit-media-controls {
+  display: none !important;
+}
+
+video::-webkit-media-controls-enclosure {
+  display: none !important;
+}
+
+/* Disable text selection on video UI */
+.video-ui {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Smooth video transitions */
+.video-fade-enter {
+  opacity: 0;
+}
+
+.video-fade-enter-active {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.video-fade-exit {
+  opacity: 1;
+}
+
+.video-fade-exit-active {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
