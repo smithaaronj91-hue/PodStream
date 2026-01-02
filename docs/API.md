@@ -327,3 +327,58 @@ Response includes pagination metadata:
   }
 }
 ```
+
+---
+
+## Voice Cloning
+
+### Overview
+
+Voice cloning endpoints allow users to upload voice samples, create voice models, and synthesize speech.
+
+**Base Path:** `/api/voice`
+
+**Rate Limit:** 20 requests per hour per user
+
+For detailed documentation, see [Voice Cloning API Documentation](./VOICE_CLONING.md)
+
+### Quick Reference
+
+| Endpoint | Method | Description | Auth Required |
+|----------|--------|-------------|---------------|
+| `/voice/health` | GET | Check TTS service status | No |
+| `/voice/upload` | POST | Upload voice sample | Yes |
+| `/voice/clone` | POST | Create voice model | Yes |
+| `/voice/synthesize` | POST | Generate speech | Yes |
+| `/voice/models` | GET | List voice models | Yes |
+| `/voice/models/:id` | GET | Get model details | Yes |
+| `/voice/models/:id` | PATCH | Update model | Yes |
+| `/voice/models/:id` | DELETE | Delete model | Yes |
+| `/voice/history` | GET | Synthesis history | Yes |
+
+### Example: Complete Workflow
+
+```bash
+# 1. Upload voice sample
+curl -X POST http://localhost:5000/api/voice/upload \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -F "audio=@voice_sample.wav"
+
+# 2. Create voice model
+curl -X POST http://localhost:5000/api/voice/clone \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"sample_id": 1, "name": "My Voice", "language": "en"}'
+
+# 3. Synthesize speech
+curl -X POST http://localhost:5000/api/voice/synthesize \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"model_id": 1, "text": "Hello world!", "output_format": "mp3"}'
+
+# 4. List models
+curl -X GET http://localhost:5000/api/voice/models \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+For complete API documentation with detailed examples, parameters, and error codes, see the [Voice Cloning API Documentation](./VOICE_CLONING.md).
