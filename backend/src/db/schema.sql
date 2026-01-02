@@ -109,6 +109,49 @@ CREATE TABLE IF NOT EXISTS premium_subscriptions (
   cancelled_at TIMESTAMP
 );
 
+-- Voice samples table
+CREATE TABLE IF NOT EXISTS voice_samples (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  original_filename VARCHAR(255) NOT NULL,
+  file_path VARCHAR(500) NOT NULL,
+  file_size_bytes INTEGER NOT NULL,
+  duration_seconds DECIMAL(10,2),
+  audio_format VARCHAR(10) NOT NULL, -- wav, mp3, flac
+  sample_rate INTEGER,
+  status VARCHAR(50) DEFAULT 'uploaded', -- uploaded, processing, processed, failed
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Voice models table
+CREATE TABLE IF NOT EXISTS voice_models (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  voice_sample_id INTEGER REFERENCES voice_samples(id) ON DELETE SET NULL,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  model_path VARCHAR(500) NOT NULL,
+  status VARCHAR(50) DEFAULT 'training', -- training, ready, failed
+  language VARCHAR(10) DEFAULT 'en',
+  quality_score DECIMAL(3,2),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Voice synthesis history table
+CREATE TABLE IF NOT EXISTS voice_synthesis_history (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  voice_model_id INTEGER NOT NULL REFERENCES voice_models(id) ON DELETE CASCADE,
+  text_input TEXT NOT NULL,
+  audio_output_path VARCHAR(500) NOT NULL,
+  duration_seconds DECIMAL(10,2),
+  format VARCHAR(10) DEFAULT 'mp3',
+  status VARCHAR(50) DEFAULT 'processing', -- processing, completed, failed
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Create indexes for better query performance
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_subscription_tier ON users(subscription_tier);
@@ -119,3 +162,9 @@ CREATE INDEX idx_listen_history_user_id ON listen_history(user_id);
 CREATE INDEX idx_listen_history_episode_id ON listen_history(episode_id);
 CREATE INDEX idx_favorites_user_id ON favorites(user_id);
 CREATE INDEX idx_subscriptions_user_id ON subscriptions(user_id);
+CREATE INDEX idx_voice_samples_user_id ON voice_samples(user_id);
+CREATE INDEX idx_voice_samples_status ON voice_samples(status);
+CREATE INDEX idx_voice_models_user_id ON voice_models(user_id);
+CREATE INDEX idx_voice_models_status ON voice_models(status);
+CREATE INDEX idx_voice_synthesis_history_user_id ON voice_synthesis_history(user_id);
+CREATE INDEX idx_voice_synthesis_history_model_id ON voice_synthesis_history(voice_model_id);
