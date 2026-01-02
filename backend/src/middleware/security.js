@@ -86,6 +86,16 @@ export const searchLimiter = rateLimit({
     },
 });
 
+// Voice cloning rate limit
+export const voiceLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 20, // 20 voice operations per hour
+    message: {
+        error: 'Voice cloning limit reached, please try again later.',
+        retryAfter: 60,
+    },
+});
+
 // ============================================
 // INPUT VALIDATION HELPERS
 // ============================================
@@ -290,6 +300,7 @@ export default {
     authLimiter,
     uploadLimiter,
     searchLimiter,
+    voiceLimiter,
     validate,
     validationRules,
     sanitizeInput,

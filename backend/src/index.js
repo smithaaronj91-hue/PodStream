@@ -50,6 +50,7 @@ import userRoutes from './routes/users.js';
 import subscriptionRoutes from './routes/subscriptions.js';
 import feedRoutes from './routes/feed.js';
 import processRoutes from './routes/process.js';
+import voiceRoutes from './routes/voice.js';
 
 // Routes
 app.use('/api/categories', categoryRoutes);
@@ -59,6 +60,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/feed', feedRoutes);
 app.use('/api/process', processRoutes);
+app.use('/api/voice', voiceRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

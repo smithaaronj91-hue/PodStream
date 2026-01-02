@@ -10,3 +10,26 @@ dist/
 .vscode/settings.json
 uploads/
 postgres_data/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+.venv
+
+# TTS Service
+tts-service/venv/
+tts-service/.env
+tts-service/*.pyc
+tts-service/__pycache__/
+
+# Voice cloning files
+/tmp/podstream/
+*.wav
+*.mp3
+*.flac
