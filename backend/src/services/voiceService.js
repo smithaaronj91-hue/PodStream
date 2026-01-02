@@ -13,6 +13,7 @@ const unlinkAsync = promisify(fs.unlink);
 
 const TTS_SERVICE_URL = process.env.TTS_SERVICE_URL || 'http://localhost:5001';
 const TTS_TIMEOUT = parseInt(process.env.TTS_TIMEOUT || '60000'); // 60 seconds
+const TTS_SYNTHESIS_TIMEOUT_MULTIPLIER = 2; // Synthesis takes longer than other operations
 
 /**
  * Check if TTS service is healthy
@@ -104,7 +105,7 @@ export async function synthesizeSpeech(text, voiceSamplePath, options = {}) {
                 language
             },
             {
-                timeout: TTS_TIMEOUT * 2 // Longer timeout for synthesis
+                timeout: TTS_TIMEOUT * TTS_SYNTHESIS_TIMEOUT_MULTIPLIER
             }
         );
 

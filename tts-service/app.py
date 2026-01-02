@@ -144,8 +144,13 @@ def validate_audio():
                 'error': f'Unsupported format. Supported: {", ".join(SUPPORTED_FORMATS)}'
             }), 400
         
-        # Save temporarily
-        temp_path = os.path.join(UPLOAD_DIR, f"temp_{uuid.uuid4()}.{ext}")
+        # Validate filename to prevent path traversal
+        if '..' in file.filename or '/' in file.filename or '\\' in file.filename:
+            return jsonify({'error': 'Invalid filename'}), 400
+        
+        # Save temporarily with validated extension
+        temp_filename = f"temp_{uuid.uuid4()}.{ext}"
+        temp_path = os.path.join(UPLOAD_DIR, temp_filename)
         file.save(temp_path)
         
         # Validate
@@ -274,10 +279,24 @@ def synthesize_speech():
 def download_file(filename):
     """Download generated audio file"""
     try:
+        # Validate filename to prevent path traversal
+        if '..' in filename or '/' in filename or '\\' in filename:
+            return jsonify({'error': 'Invalid filename'}), 400
+        
+        # Ensure filename is just a basename
+        filename = os.path.basename(filename)
+        
         file_path = os.path.join(OUTPUT_DIR, filename)
         
         if not os.path.exists(file_path):
             return jsonify({'error': 'File not found'}), 404
+        
+        # Verify file is within OUTPUT_DIR (additional safety check)
+        real_path = os.path.realpath(file_path)
+        real_output_dir = os.path.realpath(OUTPUT_DIR)
+        if not real_path.startswith(real_output_dir):
+            logger.warning(f"Potential path traversal attempt: {filename}")
+            return jsonify({'error': 'Invalid file path'}), 403
         
         return send_file(file_path, as_attachment=True)
         

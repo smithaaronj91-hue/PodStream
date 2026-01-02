@@ -18,9 +18,11 @@ if [ ! -d "venv" ]; then
     pip install -r requirements.txt
 fi
 
-# Load environment variables
+# Load environment variables safely
 if [ -f ".env" ]; then
-    export $(cat .env | xargs)
+    set -o allexport
+    source .env
+    set +o allexport
 fi
 
 # Create necessary directories

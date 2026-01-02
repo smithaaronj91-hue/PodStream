@@ -21,8 +21,11 @@ Authorization: Bearer <jwt_token>
 ## Rate Limiting
 
 Voice endpoints are rate-limited to prevent abuse:
-- **20 requests per hour** per user
+- **20 requests per hour** per user (applies to all voice operations combined)
+- Uses a **sliding window** algorithm (resets gradually as time passes)
 - Exceeding the limit returns HTTP 429 (Too Many Requests)
+- The `X-RateLimit-Remaining` header shows requests remaining
+- The `X-RateLimit-Reset` header shows when the limit resets
 
 ## Endpoints
 

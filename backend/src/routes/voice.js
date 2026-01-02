@@ -26,9 +26,17 @@ const mkdirAsync = promisify(fs.mkdir);
 // Configure multer for file uploads
 const UPLOAD_DIR = process.env.VOICE_UPLOAD_DIR || '/tmp/podstream/voice_uploads';
 const MAX_FILE_SIZE = parseInt(process.env.MAX_VOICE_FILE_SIZE || '10485760'); // 10MB
+const MAX_TEXT_LENGTH = parseInt(process.env.MAX_SYNTHESIS_TEXT_LENGTH || '5000'); // 5000 characters
 
 // Ensure upload directory exists
-await mkdirAsync(UPLOAD_DIR, { recursive: true }).catch(() => {});
+try {
+    await mkdirAsync(UPLOAD_DIR, { recursive: true });
+} catch (error) {
+    if (error.code !== 'EEXIST') {
+        console.error('Failed to create upload directory:', error);
+        throw error;
+    }
+}
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -244,8 +252,10 @@ router.post('/synthesize', authMiddleware, voiceLimiter, async (req, res) => {
             return res.status(400).json({ error: 'model_id and text are required' });
         }
 
-        if (text.length > 5000) {
-            return res.status(400).json({ error: 'Text too long. Maximum 5000 characters.' });
+        if (text.length > MAX_TEXT_LENGTH) {
+            return res.status(400).json({ 
+                error: `Text too long. Maximum ${MAX_TEXT_LENGTH} characters.` 
+            });
         }
 
         // Check if model exists and belongs to user
