@@ -145,7 +145,8 @@ def validate_audio():
             }), 400
         
         # Validate filename to prevent path traversal
-        if '..' in file.filename or '/' in file.filename or '\\' in file.filename:
+        filename_only = os.path.basename(file.filename)
+        if '..' in filename_only or '/' in filename_only or '\\' in filename_only or '\0' in filename_only:
             return jsonify({'error': 'Invalid filename'}), 400
         
         # Save temporarily with validated extension
@@ -279,14 +280,14 @@ def synthesize_speech():
 def download_file(filename):
     """Download generated audio file"""
     try:
-        # Validate filename to prevent path traversal
-        if '..' in filename or '/' in filename or '\\' in filename:
+        # Validate filename to prevent path traversal (including null bytes)
+        filename_only = os.path.basename(filename)
+        if '..' in filename_only or '/' in filename_only or '\\' in filename_only or '\0' in filename_only:
             return jsonify({'error': 'Invalid filename'}), 400
         
-        # Ensure filename is just a basename
-        filename = os.path.basename(filename)
-        
-        file_path = os.path.join(OUTPUT_DIR, filename)
+        # Use only basename for additional safety
+        safe_filename = os.path.basename(filename_only)
+        file_path = os.path.join(OUTPUT_DIR, safe_filename)
         
         if not os.path.exists(file_path):
             return jsonify({'error': 'File not found'}), 404

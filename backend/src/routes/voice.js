@@ -5,6 +5,7 @@
 
 import express from 'express';
 import multer from 'multer';
+import { mkdirSync } from 'fs';
 import pool from '../db/connection.js';
 import { authMiddleware } from '../middleware/auth.js';
 import { voiceLimiter, validate, validationRules } from '../middleware/security.js';
@@ -18,19 +19,17 @@ import {
 } from '../services/voiceService.js';
 import path from 'path';
 import fs from 'fs';
-import { promisify } from 'util';
 
 const router = express.Router();
-const mkdirAsync = promisify(fs.mkdir);
 
 // Configure multer for file uploads
 const UPLOAD_DIR = process.env.VOICE_UPLOAD_DIR || '/tmp/podstream/voice_uploads';
 const MAX_FILE_SIZE = parseInt(process.env.MAX_VOICE_FILE_SIZE || '10485760'); // 10MB
 const MAX_TEXT_LENGTH = parseInt(process.env.MAX_SYNTHESIS_TEXT_LENGTH || '5000'); // 5000 characters
 
-// Ensure upload directory exists
+// Ensure upload directory exists (synchronous to avoid top-level await issues)
 try {
-    await mkdirAsync(UPLOAD_DIR, { recursive: true });
+    mkdirSync(UPLOAD_DIR, { recursive: true });
 } catch (error) {
     if (error.code !== 'EEXIST') {
         console.error('Failed to create upload directory:', error);

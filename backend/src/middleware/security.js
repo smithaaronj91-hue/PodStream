@@ -92,8 +92,9 @@ export const voiceLimiter = rateLimit({
     max: 20, // 20 voice operations per hour
     message: {
         error: 'Voice cloning limit reached, please try again later.',
-        retryAfter: 60,
     },
+    standardHeaders: true,
+    legacyHeaders: false,
 });
 
 // ============================================
