@@ -138,7 +138,11 @@ def validate_audio():
             return jsonify({'error': 'Empty filename'}), 400
         
         # Check file extension
-        ext = file.filename.rsplit('.', 1)[-1].lower()
+        filename_parts = file.filename.rsplit('.', 1)
+        if len(filename_parts) != 2:
+            return jsonify({'error': 'File must have an extension'}), 400
+        
+        ext = filename_parts[1].lower()
         if ext not in SUPPORTED_FORMATS:
             return jsonify({
                 'error': f'Unsupported format. Supported: {", ".join(SUPPORTED_FORMATS)}'
@@ -321,8 +325,27 @@ def cleanup_files():
         deleted = []
         errors = []
         
+        # Allowed directories for cleanup
+        allowed_dirs = [
+            os.path.realpath(UPLOAD_DIR),
+            os.path.realpath(MODEL_DIR),
+            os.path.realpath(OUTPUT_DIR)
+        ]
+        
         for file_path in files_to_delete:
             try:
+                # Validate file path is within allowed directories
+                real_path = os.path.realpath(file_path)
+                
+                is_allowed = any(real_path.startswith(allowed_dir) for allowed_dir in allowed_dirs)
+                
+                if not is_allowed:
+                    errors.append({
+                        'file': file_path, 
+                        'error': 'Path not in allowed directories'
+                    })
+                    continue
+                
                 if os.path.exists(file_path):
                     os.remove(file_path)
                     deleted.append(file_path)
