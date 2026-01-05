@@ -365,5 +365,5 @@ if __name__ == '__main__':
     init_directories()
     init_tts_model()
     
-    port = int(os.getenv('TTS_SERVICE_PORT', 5001))
+    port = int(os.getenv('TTS_SERVICE_PORT', 5002))
     app.run(host='0.0.0.0', port=port, debug=os.getenv('DEBUG', 'false').lower() == 'true')

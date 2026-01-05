@@ -11,7 +11,7 @@ import { promisify } from 'util';
 
 const unlinkAsync = promisify(fs.unlink);
 
-const TTS_SERVICE_URL = process.env.TTS_SERVICE_URL || 'http://localhost:5001';
+const TTS_SERVICE_URL = process.env.TTS_SERVICE_URL || 'http://localhost:5002';
 const TTS_TIMEOUT = parseInt(process.env.TTS_TIMEOUT || '60000'); // 60 seconds
 const TTS_SYNTHESIS_TIMEOUT_MULTIPLIER = 2; // Synthesis takes longer than other operations
 

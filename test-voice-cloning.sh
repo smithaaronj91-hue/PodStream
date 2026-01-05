@@ -11,7 +11,7 @@ echo ""
 
 # Configuration
 API_URL="${API_URL:-http://localhost:5000/api}"
-TTS_URL="${TTS_URL:-http://localhost:5001}"
+TTS_URL="${TTS_URL:-http://localhost:5002}"
 TEST_USER_EMAIL="${TEST_USER_EMAIL:-test@example.com}"
 TEST_USER_PASSWORD="${TEST_USER_PASSWORD:-TestPass123}"
 

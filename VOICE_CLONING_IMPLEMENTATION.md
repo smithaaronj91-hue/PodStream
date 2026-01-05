@@ -14,7 +14,7 @@ The voice cloning feature has been successfully implemented for PodStream. This 
    - `voice_synthesis_history`: Tracks synthesis operations
 
 2. **Python TTS Service** (Flask + Coqui TTS)
-   - Microservice running on port 5001
+   - Microservice running on port 5002
    - Uses Coqui TTS XTTS v2 model for voice cloning
    - Handles audio preprocessing and speech synthesis
    - Provides REST API for voice operations
@@ -137,7 +137,7 @@ README.md                    # Added voice feature section
 
 Backend (.env):
 ```env
-TTS_SERVICE_URL=http://localhost:5001
+TTS_SERVICE_URL=http://localhost:5002
 TTS_TIMEOUT=60000
 VOICE_UPLOAD_DIR=/tmp/podstream/voice_uploads
 MAX_VOICE_FILE_SIZE=10485760
@@ -146,7 +146,7 @@ MAX_SYNTHESIS_TEXT_LENGTH=5000
 
 TTS Service (.env):
 ```env
-TTS_SERVICE_PORT=5001
+TTS_SERVICE_PORT=5002
 VOICE_UPLOAD_DIR=/tmp/podstream/voice_uploads
 VOICE_MODEL_DIR=/tmp/podstream/voice_models
 VOICE_OUTPUT_DIR=/tmp/podstream/voice_output

@@ -50,7 +50,7 @@ Or manually:
 python app.py
 ```
 
-The service will start on port 5001 by default.
+The service will start on port 5002 by default.
 
 ## API Endpoints
 
@@ -126,7 +126,7 @@ Removes temporary files from the system.
 
 Environment variables (see `.env.example`):
 
-- `TTS_SERVICE_PORT`: Port to run the service (default: 5001)
+- `TTS_SERVICE_PORT`: Port to run the service (default: 5002)
 - `VOICE_UPLOAD_DIR`: Directory for uploaded voice samples
 - `VOICE_MODEL_DIR`: Directory for processed voice models
 - `VOICE_OUTPUT_DIR`: Directory for synthesized audio

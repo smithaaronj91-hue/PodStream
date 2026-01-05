@@ -31,7 +31,7 @@ services:
       JWT_EXPIRE: 7d
       CORS_ORIGIN: http://localhost:3000
       PORT: 5000
-      TTS_SERVICE_URL: http://tts-service:5001
+      TTS_SERVICE_URL: http://tts-service:5002
       TTS_TIMEOUT: 60000
       VOICE_UPLOAD_DIR: /tmp/podstream/voice_uploads
       MAX_VOICE_FILE_SIZE: 10485760
@@ -54,7 +54,7 @@ services:
       dockerfile: Dockerfile
     container_name: podstream-tts
     environment:
-      TTS_SERVICE_PORT: 5001
+      TTS_SERVICE_PORT: 5002
       VOICE_UPLOAD_DIR: /tmp/podstream/voice_uploads
       VOICE_MODEL_DIR: /tmp/podstream/voice_models
       VOICE_OUTPUT_DIR: /tmp/podstream/voice_output
@@ -63,11 +63,11 @@ services:
       MAX_VOICE_DURATION: 300.0
       DEBUG: 'false'
     ports:
-      - '5001:5001'
+      - '5002:5002'
     volumes:
       - voice_data:/tmp/podstream
     healthcheck:
-      test: ['CMD-SHELL', 'curl -f http://localhost:5001/health || exit 1']
+      test: ['CMD-SHELL', 'curl -f http://localhost:5002/health || exit 1']
       interval: 30s
       timeout: 10s
       retries: 3

@@ -58,7 +58,7 @@ The voice cloning feature has been successfully implemented, tested, and hardene
 ┌─────────────────┐
 │  Python TTS     │
 │  Service        │
-│  (Port 5001)    │
+│  (Port 5002)    │
 │  Coqui TTS      │
 └─────────────────┘
 ```

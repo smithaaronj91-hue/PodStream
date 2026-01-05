@@ -31,5 +31,5 @@ mkdir -p /tmp/podstream/voice_models
 mkdir -p /tmp/podstream/voice_output
 
 # Start the service
-echo "🚀 Starting TTS service on port ${TTS_SERVICE_PORT:-5001}..."
+echo "🚀 Starting TTS service on port ${TTS_SERVICE_PORT:-5002}..."
 python app.py

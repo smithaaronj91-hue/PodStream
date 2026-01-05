@@ -67,7 +67,7 @@ Update your backend `.env` file:
 
 ```env
 # Add these to backend/.env
-TTS_SERVICE_URL=http://localhost:5001
+TTS_SERVICE_URL=http://localhost:5002
 TTS_TIMEOUT=60000
 VOICE_UPLOAD_DIR=/tmp/podstream/voice_uploads
 MAX_VOICE_FILE_SIZE=10485760
@@ -92,7 +92,7 @@ npm run dev
 ### 1. Check Health
 
 ```bash
-curl http://localhost:5001/health
+curl http://localhost:5002/health
 ```
 
 Expected response:
@@ -245,7 +245,7 @@ TTS(model_name="tts_models/multilingual/multi-dataset/xtts_v2")
 **Problem**: Backend can't connect to TTS service
 
 **Solution**:
-1. Check TTS service is running: `curl http://localhost:5001/health`
+1. Check TTS service is running: `curl http://localhost:5002/health`
 2. Verify TTS_SERVICE_URL in backend `.env`
 3. Check firewall settings
 

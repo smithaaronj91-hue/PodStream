@@ -21,7 +21,7 @@ RUN mkdir -p /tmp/podstream/voice_uploads \
     /tmp/podstream/voice_output
 
 # Expose port
-EXPOSE 5001
+EXPOSE 5002
 
 # Run the application
 CMD ["python", "app.py"]
