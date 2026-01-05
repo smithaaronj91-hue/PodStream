@@ -36,3 +36,23 @@ A modern, full-stack podcast discovery and streaming platform with a TikTok-like
 - Early access to new episodes
 - Exclusive premium-only content
 - Direct support for creators
+
+## 🚀 Quick Start
+
+### Service Ports
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:5000
+- **TTS Service**: http://localhost:5002
+- **PostgreSQL**: localhost:5432
+
+### Running with Docker
+```bash
+docker-compose up
+```
+
+### Voice Cloning Setup
+For detailed voice cloning setup instructions, see:
+- [Voice Cloning Quick Start Guide](VOICE_CLONING_QUICKSTART.md)
+- [Voice Cloning API Documentation](docs/VOICE_CLONING.md)
+
+The TTS service runs on **port 5002** and provides voice cloning capabilities through the Python Coqui TTS engine.
