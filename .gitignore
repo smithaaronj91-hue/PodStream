@@ -10,3 +10,4 @@ dist/
 .vscode/settings.json
 uploads/
 postgres_data/
+tts-service/__pycache__/
